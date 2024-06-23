@@ -7,7 +7,7 @@ export function BookPreview({ book }) {
         <article className="book-preview">
             <h1>Title: {title}</h1>
             <h2>Price: {price}{bookService.getCurrencyCode(currencyCode)}</h2>
-            <img src={`../assets/img/${thumbnail}`} alt="" />
+            <img src={`assets/img/${thumbnail}`} alt="" />
         </article>
     )
 }
