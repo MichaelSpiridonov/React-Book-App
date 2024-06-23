@@ -1,12 +1,12 @@
-import { Home } from './cmps/Home.jsx'
-import { AboutUs } from './cmps/AboutUs.jsx';
-import { BookIndex } from './cmps/BookIndex.jsx';
+import { Home } from './pages/Home.jsx'
+import { AboutUs } from './pages/AboutUs.jsx';
+import { BookIndex } from './pages/BookIndex.jsx';
 
 const { useState } = React
 
 export function App() {
 
-    const [page, setPage] = useState('home')
+    const [page, setPage] = useState('book')
 
     return (
         <section className="app">
