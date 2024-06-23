@@ -3,7 +3,7 @@ import { storageService } from './async-storage.service.js'
 
 const BOOK_KEY = 'bookDB'
 
-_createbooks()
+_createBooks()
 
 export const bookService = {
     query,
@@ -19,7 +19,6 @@ export const bookService = {
 }
 
 function query(filterBy = {}) {
-    console.log(filterBy)
     return storageService.query(BOOK_KEY)
         .then(books => {
             if (filterBy.title) {
@@ -27,7 +26,7 @@ function query(filterBy = {}) {
                 books = books.filter(book => regex.test(book.title))
             }
             if (filterBy.price) {
-                books = books.filter(book => book.price >= filterBy.price)
+                books = books.filter(book => book.listPrice.amount >= filterBy.price)
             }
             return books
         })
@@ -49,7 +48,7 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', price = 0, thumbnail = '', description = utilService.makeLorem(50), currencyCode = 'ILS', isOnSale = false) {
+function getEmptyBook(title = '', price = 0, thumbnail = '', description = utilService.makeLorem(150), currencyCode = 'ILS', isOnSale = false) {
     return {
         id: '',
         title,
@@ -91,23 +90,41 @@ function getNextbookId(bookId) {
         })
 }
 
-function _createbooks() {
+function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
+        const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
+        const currency = ['ILS', 'USD', 'EUR']
         books = []
-        books.push(_createbook('Holes', 300, '11.jpg'))
-        books.push(_createbook('How To Start Your Own Country', 120, '19.jpg'))
-        books.push(_createbook('How To Defend Yourself Against Alien Abduction', 100, '18.jpg'))
-        books.push(_createbook('Don\'t Panic', 150, '17.jpg'))
+        for (let i = 0; i < 20; i++) {
+            const book = {
+                id: utilService.makeId(),
+                title: utilService.makeLorem(4),
+                subtitle: utilService.makeLorem(4),
+                authors: [
+                    utilService.makeLorem(1),
+                    utilService.makeLorem(1),
+                    utilService.makeLorem(1)
+                ],
+                publishedDate: utilService.getRandomIntInclusive(1950, 2024),
+                description: utilService.makeLorem(150),
+                pageCount: utilService.getRandomIntInclusive(20, 600),
+                categories: [ctgs[utilService.getRandomIntInclusive(0, ctgs.length - 1)]],
+                thumbnail: `${i+1}.jpg`,
+                language: "en",
+                listPrice: {
+                    amount: utilService.getRandomIntInclusive(80, 500),
+                    currencyCode: currency[utilService.getRandomIntInclusive(0, currency.length - 1)],
+                    isOnSale: Math.random() > 0.7
+                }
+            }
+            books.push(book)
+        }
         utilService.saveToStorage(BOOK_KEY, books)
+        console.log('books', books)
     }
 }
 
-function _createbook(title, price = 250, thumbnail) {
-    const book = getEmptyBook(title, price, thumbnail)
-    book.id = utilService.makeId()
-    return book
-}
 
 function getCurrencyCode(code) {
     switch (code) {
