@@ -5,18 +5,52 @@
 }
 .book-details h1 {
     color: var(--clr1);
-    font-size: 3em;
+    font-size: 2em;
     
 }
 .book-details p {
     color: var(--clr2);
     font-size: 1.5em;
 }
+
+.book-details ul {
+    list-style-type: none;
+    color: var(--clr2);
+    font-size: 1.5em;
+    padding: 0.1em;
+    margin-bottom: 1em;
+}
+
 .book-details h5 {
     color: var(--clr2);
 }
 .book-details img {
-    max-width: 200px;
+    max-width: 400px;
     display: block;
     margin: auto;
 }
+
+.book-details .red {
+    color: red;
+}
+
+.book-details .green {
+    color: green;
+}
+
+.image-container {
+    position: relative; 
+  }
+  
+  .sale-sign {
+    background-color: #ff4747; 
+    color: rgb(255, 255, 255);
+    padding: 10px 30px; 
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+  }
