@@ -11,7 +11,7 @@ export function BookPreview({ book }) {
         {bookService.getCurrencyCode(currencyCode)}
       </h2>
       <div className="image-container">
-        <img src={`./assets/img/${book.thumbnail}`} alt="" />
+        <img src={`./assets/img/${thumbnail}`} alt="" />
         {(isOnSale) ? <div className="sale-sign">On Sale!</div> : ''}
       </div>
     </article>

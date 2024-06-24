@@ -1,3 +1,4 @@
+import { LongTxt } from "../cmps/LongTxt.jsx"
 import { bookService } from "../services/book.service.js"
 
 const { useEffect, useState } = React
@@ -30,7 +31,6 @@ export function BookDetails({ bookId, onBack }) {
     if (book.listPrice.amount > 150) return "red"
     else if (book.listPrice.amount < 20) return "green"
   }
-
   if (!book) return <div className="loader"></div>
   return (
     <section className="book-details">
@@ -55,7 +55,7 @@ export function BookDetails({ bookId, onBack }) {
         <li>Categories: {book.categories}</li>
         <li>Language: {book.language}</li>
       </ul>
-      <p>Book Description: {book.description}</p>
+      <LongTxt txt={book.description} />
 
       <button onClick={onBack}>Back</button>
     </section>

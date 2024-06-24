@@ -71,13 +71,13 @@ function getDefaultFilter() {
 
 function getFilterBy() {
     return {
-        ...gFilterBy
+        ...filterBy
     }
 }
 
 function setFilterBy(filterBy = {}) {
-    if (filterBy.title !== undefined) gFilterBy.title = filterBy.title
-    if (filterBy.price !== undefined) gFilterBy.price = filterBy.price
+    if (filterBy.title !== undefined) filterBy.title = filterBy.title
+    if (filterBy.price !== undefined) filterBy.price = filterBy.price
     return filterBy
 }
 
