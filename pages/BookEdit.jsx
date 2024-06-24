@@ -33,8 +33,6 @@ export function BookEdit() {
   function handleChange({ target }) {
     const field = target.name
     let value = target.value
-    console.log(field)
-    console.log(bookToEdit.listPrice[field])
     switch (target.type) {
       case "number":
       case "range":
@@ -48,8 +46,9 @@ export function BookEdit() {
       default:
         break
     }
-    if (field === 'amount') {
-        setBookToEdit((prevBook) => ({ ...prevBook, listPrice: {...prevBook.listPrice, amount: value} }))
+
+    if (bookToEdit.listPrice[field]) {
+        setBookToEdit((prevBook) => ({ ...prevBook, listPrice: {...prevBook.listPrice, [field]: value} }))
     }
     setBookToEdit((prevBook) => ({ ...prevBook, [field]: value }))
   }

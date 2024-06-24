@@ -1,14 +1,19 @@
 import { LongTxt } from "../cmps/LongTxt.jsx"
 import { bookService } from "../services/book.service.js"
+const { useNavigate, useParams, Link } = ReactRouterDOM
 
 const { useEffect, useState } = React
 
-export function BookDetails({ bookId, onBack }) {
+export function BookDetails() {
   const [book, setBook] = useState(null)
+  const [prevId, setPrevId] = useState(null)
+  const [nextId, setNextId] = useState(null)
+  const { bookId } = useParams()
 
   useEffect(() => {
     bookService.get(bookId).then((book) => setBook(book))
-  }, [])
+    setIds()
+  }, [bookId])
 
   function getPageCategory() {
     if (book.pageCount > 500) return "Serious Reading"
@@ -31,6 +36,13 @@ export function BookDetails({ bookId, onBack }) {
     if (book.listPrice.amount > 150) return "red"
     else if (book.listPrice.amount < 20) return "green"
   }
+
+  function setIds() {
+    bookService.getNextBookId(bookId).then(bookId => setNextId(bookId))
+    bookService.getPrevBookId(bookId).then(bookId => setPrevId(bookId))
+  }
+
+  
   if (!book) return <div className="loader"></div>
   return (
     <section className="book-details">
@@ -56,8 +68,11 @@ export function BookDetails({ bookId, onBack }) {
         <li>Language: {book.language}</li>
       </ul>
       <LongTxt txt={book.description} />
-
-      <button onClick={onBack}>Back</button>
+        <div className="btn-container">
+        <button ><Link to="/books">Back</Link></button>
+        <button ><Link to={`/books/${prevId}`}>Prev Book</Link></button>
+        <button ><Link to={`/books/${nextId}`}>Next Book</Link></button>
+        </div>
     </section>
   )
 }

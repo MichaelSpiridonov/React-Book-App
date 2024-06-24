@@ -11,11 +11,12 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
-    getNextbookId,
+    getNextBookId,
+    getPrevBookId,
     getFilterBy,
     setFilterBy,
     getDefaultFilter,
-    getCurrencyCode
+    getCurrencyCode,
 }
 
 function query(filterBy = {}) {
@@ -81,12 +82,21 @@ function setFilterBy(filterBy = {}) {
     return filterBy
 }
 
-function getNextbookId(bookId) {
+function getNextBookId(bookId) {
     return storageService.query(BOOK_KEY)
         .then(books => {
-            let nextbookIdx = books.findIndex(book => book.id === bookId) + 1
-            if (nextbookIdx === books.length) nextbookIdx = 0
-            return books[nextbookIdx].id
+            let nextBookIdx = books.findIndex(book => book.id === bookId) + 1
+            if (nextBookIdx === books.length) nextBookIdx = 0
+            return books[nextBookIdx].id
+        })
+}
+
+function getPrevBookId(bookId) {
+    return storageService.query(BOOK_KEY)
+        .then(books => {
+            let prevBookIdx = books.findIndex(book => book.id === bookId) - 1
+            if (prevBookIdx < 0) prevBookIdx = books.length -1
+            return books[prevBookIdx].id
         })
 }
 
@@ -116,7 +126,8 @@ function _createBooks() {
                     amount: utilService.getRandomIntInclusive(80, 500),
                     currencyCode: currency[utilService.getRandomIntInclusive(0, currency.length - 1)],
                     isOnSale: Math.random() > 0.7
-                }
+                },
+                reviews: [],
             }
             books.push(book)
         }
